@@ -1,0 +1,13 @@
+.cart-container {
+  padding: 40px;
+  margin-top: 250px;
+}
+
+.cart-item {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+button {
+  margin-top: 5px;
+}

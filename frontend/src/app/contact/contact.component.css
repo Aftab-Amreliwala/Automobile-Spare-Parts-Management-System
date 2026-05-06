@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* margin-top: 10px; */
+}
+
+body {
+    /* margin-top: 100px; */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    width: 85%;
+    margin: 20px auto;
+    font-size: 13px;
+    color: #777;
+}
+
+/* Contact Section */
+.container {
+    width: 85%;
+    margin: auto;
+}
+
+.contact-section {
+    padding: 40px 0 60px;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+/* Left Form */
+.contact-form {
+    flex: 2;
+}
+
+.contact-form h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.contact-form p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.contact-form label {
+    display: block;
+    margin: 15px 0 5px;
+    font-size: 13px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.contact-form button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background: #000;
+    color: #fff;
+    border: 2px solid red;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.contact-form button:hover {
+    background: red;
+}
+
+/* Right Info */
+.contact-info {
+    flex: 1;
+    font-size: 14px;
+}
+
+.contact-info h3 {
+    margin-bottom: 15px;
+}
+
+.contact-info p {
+    margin-bottom: 20px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Newsletter */
+.newsletter-section {
+    background: #e6e6e6;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.newsletter-container h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.newsletter-container p {
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    width: 350px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.newsletter-form button {
+    padding: 10px 25px;
+    background: #000;
+    color: #fff;
+    border: 2px solid red;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.newsletter-form button:hover {
+    background: red;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .contact-container {
+        flex-direction: column;
+    }
+}

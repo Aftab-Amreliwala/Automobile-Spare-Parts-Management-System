@@ -1,0 +1,61 @@
+<div class="checkout-container">
+
+  <h2>Checkout 🧾</h2>
+
+  <!-- USER FORM -->
+  <div class="form-box">
+    <input 
+      type="text" 
+      placeholder="Full Name" 
+      [(ngModel)]="user.name"
+    />
+
+    <input 
+      type="text" 
+      placeholder="Phone Number" 
+      [(ngModel)]="user.phone"
+    />
+
+    <textarea 
+      placeholder="Full Address" 
+      [(ngModel)]="user.address">
+    </textarea>
+  </div>
+
+  <!-- CART SUMMARY -->
+  <div class="cart-summary" *ngIf="cart.length > 0">
+
+    <div class="cart-item" *ngFor="let item of cart">
+      <div>
+        <p class="item-name">{{ item.pname }}</p>
+        <span class="item-price">
+          Rs. {{ item.price }} × {{ item.quantity }}
+        </span>
+      </div>
+    </div>
+
+    <h3 class="total">
+      Total: Rs. {{ getTotalPrice() }}
+    </h3>
+
+    <button 
+      class="order-btn"
+      (click)="placeOrder()"
+      [disabled]="isPlacingOrder"
+    >
+      {{ isPlacingOrder ? 'Placing Order...' : 'Place Order' }}
+    </button>
+
+  </div>
+
+  <!-- EMPTY -->
+  <div *ngIf="cart.length === 0" class="empty">
+    Cart is empty 😢
+  </div>
+
+  <!-- BACK -->
+  <button routerLink="/" class="back-btn">
+    ⬅ Back to Shop
+  </button>
+
+</div>

@@ -1,0 +1,53 @@
+<app-hero></app-hero>
+
+<!-- Featured Products Section -->
+<section class="featured-products">
+  <div class="container">
+    <h2 class="section-title">Featured Products</h2>
+    
+    <div class="product-grid" *ngIf="!isLoading && !errorMsg && products.length > 0">
+      <a class="product-card" *ngFor="let p of products" [routerLink]="['/shop/product', p._id]">
+        
+        <!-- Image -->
+        <div class="product-image">
+          <img 
+            [src]="'http://localhost:3000/uploads/' + p.photo"
+            [alt]="p.pname"
+          />
+        </div>
+
+        <!-- Content -->
+        <div class="product-content">
+
+          <div class="product-title">{{ p.pname }}</div>
+
+          <div class="price-section">
+            <span class="old-price" *ngIf="p.oldPrice">Rs. {{ p.oldPrice }}</span>
+            <span class="new-price">Rs. {{ p.price }}</span>
+          </div>
+
+          <button class="add-btn" (click)="addToCart(p); $event.preventDefault()">
+            {{ p.qty > 0 ? 'ADD TO CART' : 'OUT OF STOCK' }}
+          </button>
+        </div>
+
+      </a>
+    </div>
+
+    <!-- No products fallback -->
+    <div *ngIf="!isLoading && !errorMsg && products.length === 0" class="center-msg">
+      No products available at the moment.
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="center-msg">
+      Loading featured products...
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="errorMsg" class="center-msg">
+      {{ errorMsg }}
+    </div>
+  </div>
+</section>
+

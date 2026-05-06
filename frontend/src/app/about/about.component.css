@@ -1,0 +1,137 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    margin-top: 50px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* COMMON CONTAINER */
+.container {
+    width: 85%;
+    margin: auto;
+}
+
+/* =========================
+   ABOUT SECTION
+========================= */
+
+.about-section {
+    background: #eeeeee;
+    padding: 60px 0;
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.about-text p {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* =========================
+   WHAT SETS US APART
+========================= */
+
+.apart-section {
+    background: #ffffff;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.apart-heading {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.apart-section p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 18px;
+    line-height: 1.8;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =========================
+   NEWSLETTER SECTION
+========================= */
+
+.newsletter-section {
+    background: #e0e0e0;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.newsletter-container h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.newsletter-container p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    width: 350px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.newsletter-form button {
+    padding: 10px 25px;
+    background: #000;
+    color: #fff;
+    border: 2px solid #e63946;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.newsletter-form button:hover {
+    background: #e63946;
+}

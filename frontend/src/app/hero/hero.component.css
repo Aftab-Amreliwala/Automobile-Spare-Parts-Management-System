@@ -1,0 +1,214 @@
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  background: #000;;
+  margin-top: 180px;
+}
+
+/* ===== SLIDES ===== */
+.hero-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Background image */
+.slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: brightness(0.55);
+  transform: scale(1.04);
+  transition: transform 7s ease;
+}
+
+.hero-slide.active .slide-bg {
+  transform: scale(1);
+}
+
+/* Dark gradient overlay */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.45) 100%),
+    linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%);
+}
+
+/* ===== SLIDE CONTENT ===== */
+.slide-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  padding-bottom: 50px; /* offset for dots */
+}
+
+/* ===== TITLE ===== */
+.hero-title {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: clamp(32px, 5vw, 58px);
+  font-weight: 800;
+  font-style: italic;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+
+  /* Entrance animation */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
+}
+
+.hero-slide.active .hero-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== SUBTITLE ===== */
+.hero-sub {
+  font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.3px;
+  margin-bottom: 32px;
+  max-width: 560px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s 0.4s ease, transform 0.7s 0.4s ease;
+}
+
+.hero-slide.active .hero-sub {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== SHOP NOW BUTTON ===== */
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 36px;
+  background: transparent;
+  color: #ffffff;
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s 0.55s ease, transform 0.7s 0.55s ease,
+              background 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-slide.active .hero-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-arrow {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+/* ===== DOTS NAVIGATION ===== */
+.hero-dots {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.dot.active {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.85);
+  transform: scale(1.1);
+}
+
+.dot:hover:not(.active) {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero {
+    height: 360px;
+  }
+
+  .hero-title {
+    font-size: clamp(26px, 7vw, 38px);
+  }
+
+  .hero-sub {
+    font-size: 13px;
+  }
+
+  .hero-btn {
+    padding: 11px 28px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 300px;
+  }
+}

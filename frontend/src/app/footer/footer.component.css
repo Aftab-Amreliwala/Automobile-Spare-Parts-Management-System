@@ -1,0 +1,173 @@
+/* ===== FOOTER ===== */
+.footer {
+  background: #1e1e1e;
+  color: #cccccc;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ===== MAIN FOOTER AREA ===== */
+.footer-main {
+  padding: 50px 0 40px;
+}
+
+/* ===== 4 COLUMN GRID ===== */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 60px;
+}
+
+/* ===== CONTACT FULL WIDTH & CENTERED ===== */
+.footer-col.contact-col {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* horizontally center */
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* ===== HEADINGS ===== */
+.footer-heading {
+  font-size: 14px;
+  font-weight: 800;
+  font-style: italic;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+/* ===== LINKS ===== */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: #bbbbbb;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+/* ===== CONTACT LIST ===== */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 600px;
+}
+
+.contact-icon {
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.contact-text {
+  font-size: 13.5px;
+  color: #bbbbbb;
+  line-height: 1.6;
+  text-align: left;   /* keeps address readable */
+}
+
+/* ===== SOCIAL BUTTONS ===== */
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.social-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #333333;
+  border: 1px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.social-btn:hover {
+  background: #444444;
+  border-color: #666;
+  transform: translateY(-3px);
+}
+
+/* ===== COURIER LOGOS ===== */
+.courier-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ===== BOTTOM BAR ===== */
+.footer-bottom {
+  border-top: 1px solid #333333;
+  background: #161616;
+  padding: 18px 0;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #888888;
+  letter-spacing: 0.2px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  .footer-col.contact-col {
+    grid-column: auto;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-container {
+    padding: 0 20px;
+  }
+}

@@ -1,0 +1,103 @@
+<div class="shop-container">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <input 
+      type="text" 
+      placeholder="Search products..." 
+      [(ngModel)]="searchText"
+    />
+
+    <div class="cart-icon" (click)="toggleCart()">
+  🛒 Cart ({{ getCartCount() }})
+</div>
+</div>
+
+  <!-- PRODUCTS -->
+  <div class="product-grid" *ngIf="!isLoading && !errorMsg">
+
+    <div class="product-card" *ngFor="let p of filteredProducts()">
+
+      <div class="product-image">
+        <img [src]="'http://localhost:3000/uploads/' + p.photo" />
+      </div>
+
+      <div class="product-content">
+
+        <div class="product-title">{{ p.pname }}</div>
+
+        <div class="price-section">
+          <span class="old-price" *ngIf="p.oldPrice">Rs. {{ p.oldPrice }}</span>
+          <span class="new-price">Rs. {{ p.price }}</span>
+        </div>
+
+        <button 
+          class="add-btn" 
+          (click)="addToCart(p)"
+          [disabled]="p.qty <= 0">
+          {{ p.qty > 0 ? 'ADD TO CART 🛒' : 'OUT OF STOCK' }}
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="isLoading" class="center-msg">Loading products...</div>
+
+  <!-- ERROR -->
+  <div *ngIf="errorMsg" class="center-msg">{{ errorMsg }}</div>
+
+</div>
+<!-- CART POPUP -->
+<!-- OVERLAY -->
+<div class="cart-overlay" *ngIf="isCartOpen" (click)="toggleCart()"></div>
+
+<!-- SIDE CART -->
+<div class="cart-drawer" [class.open]="isCartOpen">
+
+  <!-- HEADER -->
+  <div class="cart-header">
+    <h3>🛒 Your Cart</h3>
+    <span (click)="toggleCart()">✖</span>
+  </div>
+
+  <!-- ITEMS -->
+  <div class="cart-body">
+
+    <div *ngIf="cart.length === 0" class="empty-cart">
+      Cart is empty 😢
+    </div>
+
+    <div class="cart-item" *ngFor="let item of cart">
+
+      <div class="item-info">
+        <p>{{ item.pname }}</p>
+        <span>Rs. {{ item.price }}</span>
+      </div>
+
+      <!-- QTY -->
+      <div class="qty-box">
+        <button (click)="decreaseQty(item)">−</button>
+        <span>{{ item.quantity }}</span>
+        <button (click)="increaseQty(item)">+</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+<div class="cart-footer">
+  <h3>Total: Rs. {{ getTotalPrice() }}</h3>
+
+  <button 
+    class="checkout-btn" 
+    routerLink="/checkout"
+    (click)="toggleCart()"
+  >
+    Checkout
+  </button>
+</div>
+</div>
