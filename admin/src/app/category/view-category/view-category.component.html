@@ -1,0 +1,620 @@
+<div class="view-category-page">
+
+  <!-- Floating orbs background -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-icon">
+      <span>📂</span>
+    </div>
+    <div class="page-header-text">
+      <h2>Category List</h2>
+      <p>Manage, edit and remove your product categories</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search categories..."
+        [(ngModel)]="searchText"
+        (input)="search()"
+      />
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+
+    <!-- Card Top Bar -->
+    <div class="card-topbar">
+      <span class="card-topbar-dot dot-red"></span>
+      <span class="card-topbar-dot dot-yellow"></span>
+      <span class="card-topbar-dot dot-green"></span>
+      <span class="card-topbar-label">categories.json</span>
+      <span class="card-topbar-count">{{ filteredCategories.length }} records</span>
+    </div>
+
+    <!-- Table Wrapper -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Category ID</th>
+            <th>Name</th>
+            <th>Photo</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let c of filteredCategories; let i = index"
+              [class.editing]="editId === c._id"
+              [style.animation-delay]="i * 0.05 + 's'">
+
+            <!-- Category ID -->
+            <td>
+              <span *ngIf="editId !== c._id" class="cell-text id-badge">{{ c.categoryId }}</span>
+              <div *ngIf="editId === c._id" class="edit-input-wrap">
+                <input class="edit-input" [(ngModel)]="c.categoryId" />
+                <span class="edit-input-bar"></span>
+              </div>
+            </td>
+
+            <!-- Category Name -->
+            <td>
+              <span *ngIf="editId !== c._id" class="cell-text">{{ c.categoryName }}</span>
+              <div *ngIf="editId === c._id" class="edit-input-wrap">
+                <input class="edit-input" [(ngModel)]="c.categoryName" />
+                <span class="edit-input-bar"></span>
+              </div>
+            </td>
+
+            <!-- Photo -->
+            <td class="photo-cell">
+              <div class="photo-wrap">
+                <img
+                  [src]="'http://localhost:3000/uploads/' + c.photo"
+                  class="category-img"
+                  alt="category photo"
+                />
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions-cell">
+              <div class="btn-group">
+                <!-- View mode -->
+                <button *ngIf="editId !== c._id"
+                        class="action-btn btn-edit"
+                        (click)="edit(c)">
+                  <span>✏</span> Edit
+                </button>
+
+                <!-- Edit mode -->
+                <button *ngIf="editId === c._id"
+                        class="action-btn btn-save"
+                        (click)="update(c)">
+                  <span>💾</span> Save
+                </button>
+
+                <button *ngIf="editId === c._id"
+                        class="action-btn btn-cancel"
+                        (click)="cancel()">
+                  <span>✕</span> Cancel
+                </button>
+
+                <button class="action-btn btn-delete"
+                        (click)="delete(c._id)">
+                  <span>🗑</span> Delete
+                </button>
+              </div>
+            </td>
+
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="filteredCategories.length === 0" class="empty-row">
+            <td colspan="4">
+              <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <p class="empty-title">No categories found</p>
+                <p class="empty-hint">Try adjusting your search query</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700&display=swap');
+
+  :host {
+    --accent: #f59e0b;
+    --accent-glow: rgba(245, 158, 11, 0.15);
+    --accent-glow-strong: rgba(245, 158, 11, 0.25);
+    --main-bg: #f6f8fa;
+    --text-primary: #1c2333;
+    --text-muted: #6e7681;
+    --border: #e5e9ef;
+    --card-bg: #ffffff;
+    --radius: 10px;
+    --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Syne', sans-serif;
+    --row-hover: rgba(245, 158, 11, 0.04);
+    --edit-row-bg: rgba(245, 158, 11, 0.06);
+  }
+
+  .view-category-page {
+    min-height: 100%;
+    font-family: var(--font-body);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Orbs ── */
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .orb-1 {
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, #f59e0b, transparent 70%);
+    top: -80px; right: 5%;
+    opacity: 0.3;
+    animation-delay: 0s;
+  }
+
+  .orb-2 {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, #3b82f6, transparent 70%);
+    bottom: 10%; left: -60px;
+    opacity: 0.18;
+    animation-delay: 3s;
+  }
+
+  .orb-3 {
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, #f59e0b, transparent 70%);
+    bottom: 30%; right: 12%;
+    opacity: 0.15;
+    animation-delay: 5s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50%       { transform: translateY(-24px) scale(1.04); }
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-header-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1c2333, #0d1117);
+    border: 1px solid #21262d;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px rgba(245,158,11,0.1);
+    flex-shrink: 0;
+  }
+
+  .page-header-text {
+    flex: 1;
+  }
+
+  .page-header h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .page-header p {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ── Search ── */
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 8px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 220px;
+  }
+
+  .search-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .search-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    color: var(--text-primary);
+    width: 100%;
+  }
+
+  .search-input::placeholder {
+    color: #adb5bd;
+  }
+
+  /* ── Table Card ── */
+  .table-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0,0,0,0.04);
+    position: relative;
+    z-index: 1;
+    animation: riseUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  }
+
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ── Card Topbar ── */
+  .card-topbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 18px;
+    background: #f6f8fa;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-topbar-dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+  }
+
+  .dot-red    { background: #f87171; }
+  .dot-yellow { background: #fbbf24; }
+  .dot-green  { background: #4ade80; }
+
+  .card-topbar-label {
+    font-size: 12px;
+    color: #adb5bd;
+    font-weight: 500;
+    margin-left: 6px;
+    font-family: 'Courier New', monospace;
+    flex: 1;
+  }
+
+  .card-topbar-count {
+    font-size: 11px;
+    color: #adb5bd;
+    background: #eef0f3;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* ── Table ── */
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  .data-table thead tr {
+    background: #0d1117;
+  }
+
+  .data-table thead th {
+    padding: 13px 18px;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    white-space: nowrap;
+  }
+
+  .data-table thead th:last-child {
+    text-align: center;
+  }
+
+  /* ── Body Rows ── */
+  .data-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+    animation: rowIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .data-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--row-hover);
+  }
+
+  .data-table tbody tr.editing {
+    background: var(--edit-row-bg);
+  }
+
+  .data-table td {
+    padding: 13px 18px;
+    vertical-align: middle;
+    color: var(--text-primary);
+  }
+
+  /* ── Cell Styles ── */
+  .cell-text {
+    font-size: 13.5px;
+    color: var(--text-primary);
+  }
+
+  .id-badge {
+    display: inline-block;
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── Edit Inputs ── */
+  .edit-input-wrap {
+    position: relative;
+  }
+
+  .edit-input {
+    width: 100%;
+    padding: 7px 10px;
+    background: #f6f8fa;
+    border: 1.5px solid var(--accent);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-primary);
+    outline: none;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    transition: border-color 0.2s;
+  }
+
+  /* ── Photo ── */
+  .photo-cell {
+    width: 80px;
+  }
+
+  .photo-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .category-img {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .category-img:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.14);
+  }
+
+  /* ── Actions ── */
+  .actions-cell {
+    width: 220px;
+  }
+
+  .btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 7px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.15s;
+    white-space: nowrap;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .action-btn:active {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+
+  /* Edit */
+  .btn-edit {
+    background: rgba(245, 158, 11, 0.12);
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+  }
+
+  .btn-edit:hover {
+    background: rgba(245, 158, 11, 0.2);
+    box-shadow: 0 3px 10px rgba(245, 158, 11, 0.2);
+  }
+
+  /* Save */
+  .btn-save {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #0d1117;
+    font-weight: 600;
+    box-shadow: 0 2px 8px var(--accent-glow-strong);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-save::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-20deg);
+    animation: shine 2.5s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0%   { left: -60%; }
+    50%  { left: 130%; }
+    100% { left: 130%; }
+  }
+
+  .btn-save:hover {
+    box-shadow: 0 5px 16px var(--accent-glow-strong);
+  }
+
+  /* Cancel */
+  .btn-cancel {
+    background: #f6f8fa;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-cancel:hover {
+    background: #eef0f3;
+    color: var(--text-primary);
+  }
+
+  /* Delete */
+  .btn-delete {
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .btn-delete:hover {
+    background: rgba(239, 68, 68, 0.15);
+    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.15);
+  }
+
+  /* ── Empty State ── */
+  .empty-row td {
+    padding: 0 !important;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 52px 20px;
+    animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .empty-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+    animation: bobble 2.5s ease-in-out infinite;
+  }
+
+  @keyframes bobble {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  .empty-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .empty-hint {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+</style>

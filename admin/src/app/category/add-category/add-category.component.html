@@ -1,0 +1,512 @@
+<div class="add-category-page">
+
+  <!-- Floating orbs background -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="page-header-icon">
+      <span>📂</span>
+    </div>
+    <div class="page-header-text">
+      <h2>Add Category</h2>
+      <p>Create a new product category to organise your inventory</p>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="form-card">
+
+    <!-- Animated top bar -->
+    <div class="card-topbar">
+      <span class="card-topbar-dot dot-red"></span>
+      <span class="card-topbar-dot dot-yellow"></span>
+      <span class="card-topbar-dot dot-green"></span>
+      <span class="card-topbar-label">new_category.json</span>
+    </div>
+
+    <div class="form-body">
+
+      <!-- Category ID -->
+      <div class="field-group" style="animation-delay: 0.1s;">
+        <label class="field-label">
+          <span class="label-icon">#</span> Category ID
+        </label>
+        <div class="input-wrap">
+          <input
+            type="text"
+            [(ngModel)]="categoryId"
+            placeholder="e.g. CAT-001"
+            class="field-input"
+          />
+          <span class="input-focus-bar"></span>
+        </div>
+      </div>
+
+      <!-- Category Name -->
+      <div class="field-group" style="animation-delay: 0.2s;">
+        <label class="field-label">
+          <span class="label-icon">✦</span> Category Name
+        </label>
+        <div class="input-wrap">
+          <input
+            type="text"
+            [(ngModel)]="categoryName"
+            placeholder="e.g. Electronics"
+            class="field-input"
+          />
+          <span class="input-focus-bar"></span>
+        </div>
+      </div>
+
+      <!-- File Upload -->
+      <div class="field-group" style="animation-delay: 0.3s;">
+        <label class="field-label">
+          <span class="label-icon">⬆</span> Category Image
+        </label>
+        <label class="file-drop-zone" id="dropZone">
+          <div class="drop-inner">
+            <div class="drop-icon">🖼</div>
+            <p class="drop-text">Drag & drop or <span class="drop-browse">browse file</span></p>
+            <p class="drop-hint">PNG, JPG, SVG — max 5MB</p>
+          </div>
+          <input type="file" (change)="onFileChange($event)" class="hidden-file" />
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="field-group" style="animation-delay: 0.4s;">
+        <button class="submit-btn" (click)="addCategory()">
+          <span class="btn-icon">＋</span>
+          <span class="btn-label">Add Category</span>
+          <span class="btn-shine"></span>
+        </button>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-msg" *ngIf="message">
+        <span class="success-icon">✓</span>
+        <span>{{ message }}</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700&display=swap');
+
+  :host {
+    --sidebar-bg: #0d1117;
+    --accent: #f59e0b;
+    --accent-glow: rgba(245, 158, 11, 0.15);
+    --accent-glow-strong: rgba(245, 158, 11, 0.25);
+    --main-bg: #f6f8fa;
+    --text-primary: #1c2333;
+    --text-muted: #6e7681;
+    --radius: 10px;
+    --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Syne', sans-serif;
+    --card-bg: #ffffff;
+    --border: #e5e9ef;
+    align-items: center;
+  }
+
+  .add-category-page {
+    min-height: 100%;
+    font-family: var(--font-body);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+  }
+
+  /* ── Background Orbs ── */
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .orb-1 {
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, #f59e0b, transparent 70%);
+    top: -80px; right: 5%;
+    animation-delay: 0s;
+  }
+
+  .orb-2 {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, #3b82f6, transparent 70%);
+    bottom: 10%; left: -60px;
+    animation-delay: 3s;
+    opacity: 0.2;
+  }
+
+  .orb-3 {
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, #f59e0b, transparent 70%);
+    bottom: 30%; right: 12%;
+    animation-delay: 5s;
+    opacity: 0.18;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-24px) scale(1.04); }
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-header-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1c2333, #0d1117);
+    border: 1px solid #21262d;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px rgba(245,158,11,0.1);
+  }
+
+  .page-header h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .page-header p {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ── Form Card ── */
+  .form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0,0,0,0.04);
+    max-width: 580px;
+    position: relative;
+    z-index: 1;
+    animation: riseUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+    align-items: center;
+    
+  }
+
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ── Card Top Bar ── */
+  .card-topbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 18px;
+    background: #f6f8fa;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-topbar-dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+  }
+
+  .dot-red    { background: #f87171; }
+  .dot-yellow { background: #fbbf24; }
+  .dot-green  { background: #4ade80; }
+
+  .card-topbar-label {
+    font-size: 12px;
+    color: #adb5bd;
+    font-weight: 500;
+    margin-left: 6px;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── Form Body ── */
+  .form-body {
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ── Field Groups ── */
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    animation: fadeSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .field-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #484f58;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .label-icon {
+    color: var(--accent);
+    font-style: normal;
+    font-size: 13px;
+  }
+
+  /* ── Inputs ── */
+  .input-wrap {
+    position: relative;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 11px 14px;
+    background: #f6f8fa;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-primary);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .field-input::placeholder {
+    color: #adb5bd;
+  }
+
+  .field-input:focus {
+    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .input-focus-bar {
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 2px;
+    opacity: 0;
+    transform: scaleX(0);
+    transition: opacity 0.2s, transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .field-input:focus ~ .input-focus-bar {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  /* ── File Drop Zone ── */
+  .file-drop-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 28px 20px;
+    cursor: pointer;
+    background: #fafbfc;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .file-drop-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent-glow);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .file-drop-zone:hover {
+    border-color: var(--accent);
+    background: #fff;
+    transform: translateY(-1px);
+  }
+
+  .file-drop-zone:hover::before {
+    opacity: 1;
+  }
+
+  .hidden-file {
+    display: none;
+  }
+
+  .drop-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .drop-icon {
+    font-size: 28px;
+    animation: bobble 2.5s ease-in-out infinite;
+  }
+
+  @keyframes bobble {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+  }
+
+  .drop-text {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .drop-browse {
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .drop-hint {
+    margin: 0;
+    font-size: 11.5px;
+    color: #adb5bd;
+  }
+
+  /* ── Submit Button ── */
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #0d1117;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px var(--accent-glow-strong);
+    width: 100%;
+    justify-content: center;
+    letter-spacing: 0.3px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--accent-glow-strong);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-icon {
+    font-size: 18px;
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .btn-shine {
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-20deg);
+    animation: shine 3s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0%   { left: -60%; }
+    50%  { left: 130%; }
+    100% { left: 130%; }
+  }
+
+  /* ── Success Message ── */
+  .success-msg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #16a34a;
+    font-size: 13.5px;
+    font-weight: 500;
+    animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.94); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .success-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #16a34a;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    animation: checkPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes checkPop {
+    from { transform: scale(0) rotate(-30deg); }
+    to   { transform: scale(1) rotate(0deg); }
+  }
+</style>

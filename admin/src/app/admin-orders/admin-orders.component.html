@@ -1,0 +1,71 @@
+<div class="admin-container">
+
+  <h2>📦 All Orders</h2>
+
+  <!-- LOADING -->
+  <div *ngIf="isLoading">Loading orders...</div>
+
+  <!-- TABLE -->
+  <table *ngIf="!isLoading && orders.length > 0">
+
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Total</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <ng-container *ngFor="let order of orders; let i = index">
+
+        <!-- MAIN ROW -->
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ order.name }}</td>
+          <td>{{ order.phone }}</td>
+          <td>Rs. {{ order.totalAmount }}</td>
+          <td>{{ order.createdAt | date:'short' }}</td>
+
+          <td>
+            <button (click)="toggleDetails(i)">
+              {{ selectedOrderIndex === i ? 'Hide' : 'View' }}
+            </button>
+          </td>
+        </tr>
+
+        <!-- DETAILS ROW -->
+        <tr *ngIf="selectedOrderIndex === i">
+          <td colspan="6">
+
+            <div class="details-box">
+
+              <p><strong>Address:</strong> {{ order.address }}</p>
+
+              <h4>Items:</h4>
+
+              <div *ngFor="let item of order.items" class="item-row">
+                {{ item.pname }} — Rs. {{ item.price }} × {{ item.quantity }}
+              </div>
+
+            </div>
+
+          </td>
+        </tr>
+
+      </ng-container>
+
+    </tbody>
+
+  </table>
+
+  <!-- EMPTY -->
+  <div *ngIf="!isLoading && orders.length === 0">
+    No orders found 😢
+  </div>
+
+</div>

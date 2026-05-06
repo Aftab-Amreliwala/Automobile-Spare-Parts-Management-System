@@ -1,0 +1,164 @@
+<div class="view-product-page">
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="page-header">
+    <div class="page-header-icon">
+      <span>📦</span>
+    </div>
+    <div class="page-header-text">
+      <h2>Product List</h2>
+      <p>Browse and manage all your listed products</p>
+    </div>
+    <div class="header-search">
+      <input
+        type="text"
+        placeholder="Search products..."
+        class="search-input"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  <div class="grid-card">
+    <div class="card-topbar">
+      <div class="card-topbar-dots">
+        <span class="card-topbar-dot dot-red"></span>
+        <span class="card-topbar-dot dot-yellow"></span>
+        <span class="card-topbar-dot dot-green"></span>
+        <span class="card-topbar-label">products.json</span>
+      </div>
+      <span class="record-count">{{ filteredProducts.length }} records</span>
+    </div>
+
+    <div class="product-table" *ngIf="filteredProducts.length > 0">
+
+      <div class="table-header">
+        <div class="col-id">PRODUCT ID</div>
+        <div class="col-name">NAME</div>
+        <div class="col-category">CATEGORY</div>
+        <div class="col-price">PRICE</div>
+        <div class="col-qty">QTY</div>
+        <div class="col-photo">PHOTO</div>
+        <div class="col-actions">ACTIONS</div>
+      </div>
+
+      <div
+        class="table-row"
+        *ngFor="let p of filteredProducts; let i = index"
+        [style.animation-delay]="i * 0.06 + 's'">
+
+        <div class="col-id">
+          <span class="id-badge">{{ p._id?.slice(-3) || (i + 101) }}</span>
+        </div>
+
+        <div class="col-name">{{ p.pname }}</div>
+        <div class="col-category">{{ p.category }}</div>
+
+        <div class="col-price">
+          <span class="price-tag">₹{{ p.price }}</span>
+        </div>
+
+        <div class="col-qty">{{ p.qty }}</div>
+
+        <div class="col-photo">
+          <div class="photo-thumb">
+            <img
+              *ngIf="p.photo"
+              [src]="'http://localhost:3000/uploads/' + p.photo"
+              alt="{{ p.pname }}"
+            />
+            <span *ngIf="!p.photo" class="photo-placeholder">📦</span>
+          </div>
+        </div>
+
+        <div class="col-actions">
+          <button class="btn-edit" (click)="editProduct(p)">✏ Edit</button>
+          <button class="btn-delete" (click)="deleteProduct(p._id)">🗑 Delete</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredProducts.length === 0">
+      <div class="empty-icon">📭</div>
+      <p class="empty-title">No products found</p>
+      <p class="empty-hint">Try a different search or add a new product</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     EDIT MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" *ngIf="showEditModal" (click)="closeModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+
+    <div class="card-topbar">
+      <div class="card-topbar-dots">
+        <span class="card-topbar-dot dot-red" (click)="closeModal()" style="cursor:pointer"></span>
+        <span class="card-topbar-dot dot-yellow"></span>
+        <span class="card-topbar-dot dot-green"></span>
+        <span class="card-topbar-label">edit_product.json</span>
+      </div>
+      <button class="modal-close-btn" (click)="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-body" *ngIf="editingProduct">
+
+      <div class="modal-field-row">
+        <div class="modal-field">
+          <label class="modal-label">Product Name</label>
+          <input type="text" class="modal-input" [(ngModel)]="editingProduct.pname" placeholder="Product name" />
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Category</label>
+          <input type="text" class="modal-input" [(ngModel)]="editingProduct.category" placeholder="Category" />
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label">Description</label>
+        <textarea class="modal-input modal-textarea" [(ngModel)]="editingProduct.pdesc" rows="3" placeholder="Product description"></textarea>
+      </div>
+
+      <div class="modal-field-row">
+        <div class="modal-field">
+          <label class="modal-label">Price (₹)</label>
+          <input type="number" class="modal-input" [(ngModel)]="editingProduct.price" placeholder="0.00" />
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Quantity</label>
+          <input type="number" class="modal-input" [(ngModel)]="editingProduct.qty" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="modal-field" *ngIf="editingProduct.photo">
+        <label class="modal-label">Current Photo</label>
+        <div class="current-photo-wrap">
+          <img [src]="'http://localhost:3000/uploads/' + editingProduct.photo" alt="Current" class="current-photo" />
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label">Change Photo (optional)</label>
+        <label class="file-drop-zone-sm">
+          <span class="drop-sm-text">{{ selectedFile ? selectedFile.name : '📎 Click to choose new image' }}</span>
+          <input type="file" style="display:none" (change)="onEditFile($event)" accept="image/*" />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" (click)="closeModal()">Cancel</button>
+        <button class="modal-btn-save" (click)="saveEdit()">💾 Save Changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>

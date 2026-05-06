@@ -1,0 +1,798 @@
+/* =============================================
+   VIEW PRODUCT COMPONENT — Category List Theme
+   ============================================= */
+
+:host {
+  --font-body: 'Segoe UI', system-ui, sans-serif;
+  --border: #e2e8f0;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --blue: #2563eb;
+  --bg: #f8f9fb;
+  --white: #ffffff;
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --radius: 14px;
+}
+
+/* ── Page Wrapper ── */
+.view-product-page {
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 32px 36px;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ── Background Orbs ── */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+}
+
+.orb-1 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, #fde68a, #fcd34d);
+  top: -120px; right: -80px;
+}
+
+.orb-2 {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, #bfdbfe, #93c5fd);
+  bottom: -80px; left: -60px;
+}
+
+.orb-3 {
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, #d9f99d, #86efac);
+  bottom: 200px; right: 200px;
+}
+
+/* ── Page Header ── */
+.page-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.page-header-icon {
+  width: 52px; height: 52px;
+  background: #1a1a1a;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+
+.page-header-text h2 {
+  margin: 0 0 2px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.3px;
+}
+
+.page-header-text p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Search box — pushed to the right */
+.header-search {
+  margin-left: auto;
+}
+
+.search-input {
+  padding: 9px 16px 9px 38px;
+  border: 1.5px solid var(--border);
+  border-radius: 22px;
+  font-size: 13.5px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.156a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E") no-repeat 13px center;
+  background-size: 16px;
+  width: 220px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-input:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* ── Main Card ── */
+.grid-card {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* ── Card Topbar (macOS style) ── */
+.card-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f1f3f5;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-topbar-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-topbar-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red    { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green  { background: #28c840; }
+
+.card-topbar-label {
+  margin-left: 8px;
+  font-size: 12.5px;
+  font-family: 'Menlo', 'Consolas', monospace;
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+}
+
+.record-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #f1f3f5;
+  border: 1px solid var(--border);
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+/* ── Table ── */
+.product-table {
+  width: 100%;
+}
+
+/* Header Row */
+.table-header {
+  display: grid;
+  grid-template-columns: 110px 1fr 130px 110px 70px 90px 180px;
+  background: #111827;
+  padding: 14px 20px;
+  gap: 12px;
+  align-items: center;
+}
+
+.table-header > div {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #d1d5db;
+  text-transform: uppercase;
+}
+
+/* Data Row */
+.table-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 130px 110px 70px 90px 180px;
+  padding: 14px 20px;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid #f1f3f5;
+  transition: background 0.15s;
+  animation: rowFadeIn 0.4s ease both;
+}
+
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row:hover {
+  background: #fafbfc;
+}
+
+/* Columns */
+.col-id, .col-name, .col-category,
+.col-price, .col-qty, .col-photo, .col-actions {
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+/* ID Badge — amber pill */
+.id-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  background: var(--amber-light);
+  color: #92400e;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 20px;
+  border: 1px solid #fde68a;
+  letter-spacing: 0.3px;
+}
+
+/* Price Tag */
+.price-tag {
+  font-weight: 600;
+  color: #065f46;
+  background: #d1fae5;
+  padding: 3px 9px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* Photo Thumbnail */
+.photo-thumb {
+  width: 56px; height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  background: #f8f9fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  font-size: 22px;
+}
+
+/* ── Action Buttons ── */
+.col-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+
+.btn-edit {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1.5px solid #fcd34d;
+}
+
+.btn-edit:hover {
+  background: #fef3c7;
+  border-color: var(--amber);
+  color: #92400e;
+  box-shadow: 0 2px 8px rgba(245,158,11,0.2);
+}
+
+.btn-delete {
+  background: #fff5f5;
+  color: var(--red);
+  border: 1.5px solid #fca5a5;
+}
+
+.btn-delete:hover {
+  background: var(--red-light);
+  border-color: var(--red);
+  box-shadow: 0 2px 8px rgba(220,38,38,0.15);
+}
+
+/* ── Empty State ── */
+.empty-state {
+  padding: 72px 0;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 14px;
+}
+
+.empty-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 6px 0;
+}
+
+.empty-hint {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .view-product-page {
+    padding: 20px 16px;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 80px 1fr 90px 90px 60px 70px 160px;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+
+  .search-input {
+    width: 170px;
+  }
+}
+
+@media (max-width: 700px) {
+  .table-header .col-category,
+  .table-row .col-category,
+  .table-header .col-qty,
+  .table-row .col-qty {
+    display: none;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 80px 1fr 100px 70px 160px;
+  }
+}
+/* ══════════════════════════════════════════════════
+   MODAL STYLES — matches view-product theme exactly
+   PASTE AT THE BOTTOM OF view-product.component.css
+══════════════════════════════════════════════════ */
+
+/* ── Overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlayIn 0.2s ease both;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal Card — same as .grid-card ── */
+.modal-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(245, 158, 11, 0.06);
+  width: 100%;
+  max-width: 580px;
+  animation: modalUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Subtle amber glow at top — matches orb style */
+.modal-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(245,158,11,0.18), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.delete-modal-card {
+  max-width: 400px;
+}
+
+@keyframes modalUp {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+/* ── Card Topbar — identical to page topbar ── */
+.modal-card .card-topbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #f1f3f5;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-card .card-topbar-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-card .card-topbar-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: filter 0.15s;
+}
+
+.modal-card .card-topbar-dot:hover { filter: brightness(0.85); }
+
+.modal-card .dot-red    { background: #ff5f57; }
+.modal-card .dot-yellow { background: #febc2e; }
+.modal-card .dot-green  { background: #28c840; }
+
+.modal-card .card-topbar-label {
+  margin-left: 8px;
+  font-size: 12.5px;
+  font-family: 'Menlo', 'Consolas', monospace;
+  color: #6b7280;
+  letter-spacing: 0.2px;
+}
+
+/* Close button — right side of topbar */
+.modal-close-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+.modal-close-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ── Modal Body ── */
+.modal-body {
+  padding: 24px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Alerts ── */
+.modal-alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  animation: modalUp 0.25s ease both;
+}
+
+.alert-success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* ── Field Layout ── */
+.modal-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Label — matches table-header uppercase style */
+.modal-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Inputs — same look as search-input ── */
+.modal-input {
+  width: 100%;
+  padding: 10px 13px;
+  background: #f8f9fb;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #111827;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.modal-input:focus {
+  background: #ffffff;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+
+.modal-input::placeholder {
+  color: #9ca3af;
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 82px;
+  line-height: 1.55;
+}
+
+/* ── Current Photo Preview ── */
+.current-photo-wrap {
+  width: 68px; height: 68px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid #e2e8f0;
+  background: #f8f9fb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.current-photo {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ── File Picker — matches add-product drop zone ── */
+.file-drop-zone-sm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: #f8f9fb;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.file-drop-zone-sm:hover {
+  border-color: #f59e0b;
+  background: #fffbeb;
+  transform: translateY(-1px);
+}
+
+.drop-sm-text {
+  font-size: 13px;
+  color: #6b7280;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Divider between content and actions ── */
+.modal-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+  margin: 0 -24px;
+}
+
+/* ── Action Buttons ── */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 2px;
+}
+
+/* Cancel — neutral, matches btn-edit style */
+.modal-btn-cancel {
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8f9fb;
+  color: #6b7280;
+  cursor: pointer;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  transition: all 0.15s;
+}
+
+.modal-btn-cancel:hover {
+  background: #f1f3f5;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+/* Save — amber gradient, matches submit-btn from add-product */
+.modal-btn-save {
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #0d1117;
+  cursor: pointer;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+  transition: transform 0.15s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shine sweep — matches add-product .btn-shine */
+.modal-btn-save::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 3s ease-in-out infinite;
+}
+
+@keyframes btnShine {
+  0%   { left: -60%; }
+  50%  { left: 130%; }
+  100% { left: 130%; }
+}
+
+.modal-btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.4);
+}
+
+.modal-btn-save:active {
+  transform: translateY(0);
+}
+
+/* ══════════════════════
+   DELETE CONFIRM MODAL
+══════════════════════ */
+.delete-body {
+  text-align: center;
+  padding: 28px 24px 24px;
+  gap: 14px;
+}
+
+.delete-icon {
+  font-size: 46px;
+  line-height: 1;
+  animation: shake 0.5s ease 0.2s both;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-10deg); }
+  40%       { transform: rotate(10deg); }
+  60%       { transform: rotate(-6deg); }
+  80%       { transform: rotate(6deg); }
+}
+
+.delete-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.2px;
+}
+
+.delete-msg {
+  margin: 0;
+  font-size: 13.5px;
+  color: #6b7280;
+  line-height: 1.65;
+}
+
+.delete-msg strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Delete confirm button — red, matches btn-delete hover */
+.modal-btn-delete {
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  cursor: pointer;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.modal-btn-delete:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.4);
+}
+
+.modal-btn-delete:active {
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .modal-field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-body {
+    padding: 18px 16px 16px;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-btn-cancel,
+  .modal-btn-save,
+  .modal-btn-delete {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
